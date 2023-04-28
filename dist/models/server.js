@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
 const connection_1 = __importDefault(require("../db/connection"));
 class Server {
     constructor() {
@@ -20,11 +21,17 @@ class Server {
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '';
         this.connecteDB();
+        this.middlewares();
     }
     connecteDB() {
         return __awaiter(this, void 0, void 0, function* () {
             yield (0, connection_1.default)();
         });
+    }
+    middlewares() {
+        this.app.use((0, cors_1.default)());
+        this.app.use(express_1.default.json());
+        this.app.use(express_1.default.static('public'));
     }
     listen() {
         this.app.listen(this.port, () => {

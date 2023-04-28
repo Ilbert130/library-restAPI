@@ -16,10 +16,25 @@ class Server {
 
         //Defining the connection
         this.connecteDB();
+
+        //Defining the middlewares
+        this.middlewares();
+
     }
 
     async connecteDB():Promise<void> {
         await dbConnection();
+    }
+
+    middlewares() {
+        //CORS
+        this.app.use(cors());
+
+        //Parsing body to JSON
+        this.app.use(express.json());
+
+        //Setting public directory
+        this.app.use(express.static('public'));
     }
 
     listen() {
