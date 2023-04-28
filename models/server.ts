@@ -1,13 +1,14 @@
 import express, {Application} from 'express';
 import cors from 'cors';
 import dbConnection from '../db/connection';
+import { UserSchema } from '../routes';
 
 class Server {
 
     private app:Application;
     private port:string;
     private apiPaths = {
-
+        user: '/api/users'
     }
 
     constructor() {
@@ -21,6 +22,7 @@ class Server {
         this.middlewares();
 
         //Defining the routes
+        this.routes();
     }
 
     async connecteDB():Promise<void> {
@@ -39,7 +41,8 @@ class Server {
     }
 
     routes(){
-        
+
+        this.app.use(this.apiPaths.user, UserSchema)
     }
 
     listen() {

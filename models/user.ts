@@ -33,3 +33,5 @@ const UserSchema = new Schema<User>({
         default: true
     }
 });
+
+export default UserSchema;

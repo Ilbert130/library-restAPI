@@ -15,13 +15,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const connection_1 = __importDefault(require("../db/connection"));
+const routes_1 = require("../routes");
 class Server {
     constructor() {
-        this.apiPaths = {};
+        this.apiPaths = {
+            user: '/api/users'
+        };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '';
         this.connecteDB();
         this.middlewares();
+        this.routes();
     }
     connecteDB() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -34,6 +38,7 @@ class Server {
         this.app.use(express_1.default.static('public'));
     }
     routes() {
+        this.app.use(this.apiPaths.user, routes_1.UserSchema);
     }
     listen() {
         this.app.listen(this.port, () => {
