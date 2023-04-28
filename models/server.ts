@@ -20,6 +20,7 @@ class Server {
         //Defining the middlewares
         this.middlewares();
 
+        //Defining the routes
     }
 
     async connecteDB():Promise<void> {
@@ -35,6 +36,10 @@ class Server {
 
         //Setting public directory
         this.app.use(express.static('public'));
+    }
+
+    routes(){
+        
     }
 
     listen() {

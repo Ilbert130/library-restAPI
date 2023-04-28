@@ -33,6 +33,8 @@ class Server {
         this.app.use(express_1.default.json());
         this.app.use(express_1.default.static('public'));
     }
+    routes() {
+    }
     listen() {
         this.app.listen(this.port, () => {
             console.log('Server runnig in this port', this.port);
