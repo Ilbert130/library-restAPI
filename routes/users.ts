@@ -1,13 +1,14 @@
 import { Router } from "express";
+import { userGet, usersGet } from "../controllers/users";
 
 
 const router:Router = Router();
 
 //GET: All
-router.get('/', (req, res) => {res.json({msg:'get'})});
+router.get('/', usersGet);
 
 //GET
-router.get('/:id', (req, res) => {res.json({msg:'get'})});
+router.get('/:id', userGet);
 
 //POST
 router.post('/', (req, res) => {res.json({msg:'post'})});

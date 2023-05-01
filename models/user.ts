@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { Schema, model } from "mongoose";
 
 interface User {
     name:string,
@@ -34,4 +34,4 @@ const UserSchema = new Schema<User>({
     }
 });
 
-export default UserSchema;
+export default model('User', UserSchema);
