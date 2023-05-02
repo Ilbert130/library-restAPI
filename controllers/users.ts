@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { User } from "../models";
+import UserModel from "../models/user";
 import bcryptjs from "bcryptjs";
 
 
@@ -11,8 +11,8 @@ export const usersGet = async(req:Request, res:Response):Promise<void> => {
         const query = { state: true };
 
         const [ total, users] = await Promise.all([
-            User.countDocuments(query),
-            User.find(query)
+            UserModel.countDocuments(query),
+            UserModel.find(query)
                 .skip(Number(since))
                 .limit(Number(limit))
         ]);
@@ -37,7 +37,7 @@ export const userGet = async(req:Request, res:Response) => {
     try {
 
         const {id} = req.params;
-        const usuario = await User.findById(id);
+        const usuario = await UserModel.findById(id);
 
         res.json({
             usuario

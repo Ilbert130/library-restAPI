@@ -12,41 +12,38 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userGet = exports.usersGet = void 0;
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_1 = __importDefault(require("../models/user"));
-const usersGet = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { limit = 5, since = 0 } = req.query;
-        const query = { state: true };
-        const [total, users] = yield Promise.all([
-            user_1.default.countDocuments(query),
-            user_1.default.find(query)
-                .skip(Number(since))
-                .limit(Number(limit))
-        ]);
-        res.json({
-            total,
-            users
+const validateJWT = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const token = req.header('x-token');
+    let idResult = {
+        id: ''
+    };
+    if (!token) {
+        return res.status(401).json({
+            msg: 'It does not have any token in the request'
         });
     }
+    try {
+        jsonwebtoken_1.default.verify(token, process.env.SECRETORPRIVATEKY || '', (err, decoded) => {
+            idResult = decoded;
+        });
+        const user = yield user_1.default.findOne({ _id: idResult.id });
+        if (!user || !user) {
+            return res.status(401).json({
+                msg: 'Token is not valid'
+            });
+        }
+        req.body.user = {
+            id: user.id,
+            role: user.role
+        };
+        next();
+    }
     catch (error) {
-        res.json({
-            msg: 'Error',
-            error
+        res.status(401).json({
+            msg: 'Token is not valid'
         });
     }
 });
-exports.usersGet = usersGet;
-const userGet = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { id } = req.params;
-        const usuario = yield user_1.default.findById(id);
-        res.json({
-            usuario
-        });
-    }
-    catch (error) {
-    }
-});
-exports.userGet = userGet;
-//# sourceMappingURL=users.js.map
+//# sourceMappingURL=validate-jwt.js.map

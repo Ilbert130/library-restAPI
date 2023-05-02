@@ -9,30 +9,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Role = void 0;
 const typegoose_1 = require("@typegoose/typegoose");
-const role_1 = require("./role");
-class User {
+class Role {
 }
 __decorate([
-    (0, typegoose_1.prop)({ require: true }),
+    (0, typegoose_1.prop)({ required: true }),
     __metadata("design:type", String)
-], User.prototype, "name", void 0);
-__decorate([
-    (0, typegoose_1.prop)({ require: true, unique: true }),
-    __metadata("design:type", String)
-], User.prototype, "email", void 0);
-__decorate([
-    (0, typegoose_1.prop)({ require: true }),
-    __metadata("design:type", String)
-], User.prototype, "password", void 0);
-__decorate([
-    (0, typegoose_1.prop)({ ref: () => role_1.Role, require: true }),
-    __metadata("design:type", Array)
-], User.prototype, "role", void 0);
+], Role.prototype, "role", void 0);
 __decorate([
     (0, typegoose_1.prop)({ default: true }),
     __metadata("design:type", Boolean)
-], User.prototype, "state", void 0);
-const UserModel = (0, typegoose_1.getModelForClass)(User);
-exports.default = UserModel;
-//# sourceMappingURL=user.js.map
+], Role.prototype, "state", void 0);
+exports.Role = Role;
+const RoleModel = (0, typegoose_1.getModelForClass)(Role);
+exports.default = RoleModel;
+//# sourceMappingURL=role.js.map
