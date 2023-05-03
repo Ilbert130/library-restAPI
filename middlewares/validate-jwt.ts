@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import UserModel from "../models/user";
 
 
-interface IUid {
+interface IId {
     id:string
 }
 
@@ -12,9 +12,6 @@ export const validateJWT = async(req:Request, res:Response, next:Function) => {
 
     //Getting the JWT from the header of the request
     const token = req.header('x-token');
-    let idResult:IUid = {
-        id: ''
-    }
 
     if(!token){
         return res.status(401).json({
@@ -25,10 +22,9 @@ export const validateJWT = async(req:Request, res:Response, next:Function) => {
     try {
 
         //The verify function is to verify the jwt. It verifies if it's valid and return the payload
-        let resul = jwt.verify(token, 'SECRETORPRIVATEKEY=Esto03sMyPub1cK3y23@913@155DE');
-        console.log(resul);
+        const {id} = jwt.verify(token, process.env.SECRETORPRIVATEKEY || '') as IId;
         
-        const user = await UserModel.findOne({_id:idResult.id});
+        const user = await UserModel.findById(id);
 
         //verifying if user exist
         if(!user || !user.state){
@@ -47,7 +43,8 @@ export const validateJWT = async(req:Request, res:Response, next:Function) => {
         
     } catch (error) {
         res.status(401).json({
-            msg: 'Token is not valid'
+            msg: 'Token is not valid',
+            error
         });
     }
 }

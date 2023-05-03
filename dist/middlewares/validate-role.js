@@ -16,29 +16,36 @@ exports.roleVerification = void 0;
 const role_1 = __importDefault(require("../models/role"));
 const roleVerification = (...roles) => {
     return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-        const rolesHas = {
-            hasRoles: false
-        };
-        if (!req.body.user) {
-            return res.status(500).json({
-                msg: 'It is necesary to validate the token at first and then validate the role'
-            });
-        }
-        const roleIds = [...req.body.user.role];
-        for (let i = 0; i < roleIds.length; i++) {
-            const id = roleIds[i].toString();
-            const role = yield role_1.default.findById(id);
-            rolesHas.hasRoles = roles.includes((role === null || role === void 0 ? void 0 : role.role) || '');
-            if (rolesHas.hasRoles) {
-                break;
+        try {
+            const rolesHas = {
+                hasRoles: false
+            };
+            if (!req.body.user) {
+                return res.status(500).json({
+                    msg: 'It is necesary to validate the token at first and then validate the role'
+                });
             }
+            const roleIds = [...req.body.user.role];
+            for (let i = 0; i < roleIds.length; i++) {
+                const id = roleIds[i].toString();
+                const role = yield role_1.default.findById(id);
+                rolesHas.hasRoles = roles.includes((role === null || role === void 0 ? void 0 : role.role) || '');
+                if (rolesHas.hasRoles) {
+                    break;
+                }
+            }
+            if (!rolesHas.hasRoles) {
+                return res.status(401).json({
+                    msg: `This service require one of these roles ${roles}`
+                });
+            }
+            next();
         }
-        if (!rolesHas.hasRoles) {
-            return res.status(401).json({
-                msg: `This service require one of these roles ${roles}`
+        catch (error) {
+            res.status(401).json({
+                error
             });
         }
-        next();
     });
 };
 exports.roleVerification = roleVerification;

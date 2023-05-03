@@ -29,13 +29,6 @@ export const login = async(req:Request, res:Response) => {
             });
         }
 
-        // const [ total, users] = await Promise.all([
-        //     UserModel.countDocuments(query),
-        //     UserModel.find(query)
-        //         .skip(Number(since))
-        //         .limit(Number(limit))
-        // ]);
-
         //Verifying the token and password
         const [token, validPassword] = await Promise.all([
             generateJWT(user.id),

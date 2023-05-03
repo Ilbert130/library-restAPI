@@ -17,18 +17,14 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_1 = __importDefault(require("../models/user"));
 const validateJWT = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.header('x-token');
-    let idResult = {
-        id: ''
-    };
     if (!token) {
         return res.status(401).json({
             msg: 'It does not have any token in the request'
         });
     }
     try {
-        let resul = jsonwebtoken_1.default.verify(token, 'SECRETORPRIVATEKEY=Esto03sMyPub1cK3y23@913@155DE');
-        console.log(resul);
-        const user = yield user_1.default.findOne({ _id: idResult.id });
+        const { id } = jsonwebtoken_1.default.verify(token, process.env.SECRETORPRIVATEKEY || '');
+        const user = yield user_1.default.findById(id);
         if (!user || !user.state) {
             return res.status(401).json({
                 msg: 'Token is not valid'
@@ -42,7 +38,8 @@ const validateJWT = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     }
     catch (error) {
         res.status(401).json({
-            msg: 'Token is not valid'
+            msg: 'Token is not valid',
+            error
         });
     }
 });

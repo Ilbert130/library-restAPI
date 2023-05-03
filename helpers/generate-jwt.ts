@@ -10,7 +10,7 @@ export const generateJWT = (id:string):Promise<unknown> => {
 
         //creating the JWT with the method sign
         jwt.sign(payload, process.env.SECRETORPRIVATEKEY || '', {
-            expiresIn: '4'
+            expiresIn: '4h'
         }, (err, token) => {
 
             if(err){
