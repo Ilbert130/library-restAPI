@@ -32,7 +32,7 @@ const validateJWT = async(req:Request, res:Response, next:Function) => {
         const user = await UserModel.findOne({_id:idResult.id});
 
         //verifying if user exist
-        if(!user || !user){
+        if(!user || !user.state){
             return res.status(401).json({
                 msg: 'Token is not valid'
             });

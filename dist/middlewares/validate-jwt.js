@@ -29,7 +29,7 @@ const validateJWT = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
             idResult = decoded;
         });
         const user = yield user_1.default.findOne({ _id: idResult.id });
-        if (!user || !user) {
+        if (!user || !user.state) {
             return res.status(401).json({
                 msg: 'Token is not valid'
             });
