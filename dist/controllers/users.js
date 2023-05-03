@@ -12,8 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userGet = exports.usersGet = void 0;
+exports.userPost = exports.userGet = exports.usersGet = void 0;
 const user_1 = __importDefault(require("../models/user"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const usersGet = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { limit = 5, since = 0 } = req.query;
@@ -46,7 +47,30 @@ const userGet = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
+        res.json({
+            msg: 'Error',
+            error
+        });
     }
 });
 exports.userGet = userGet;
+const userPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { name, email, password, role } = req.body;
+        const user = new user_1.default({ name, email, password, role });
+        const salt = bcryptjs_1.default.genSaltSync();
+        user.password = bcryptjs_1.default.hashSync(password, salt);
+        yield user.save();
+        res.json({
+            user
+        });
+    }
+    catch (error) {
+        res.json({
+            msg: 'Error',
+            error
+        });
+    }
+});
+exports.userPost = userPost;
 //# sourceMappingURL=users.js.map

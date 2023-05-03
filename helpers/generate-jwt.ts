@@ -1,15 +1,15 @@
 import jwt from "jsonwebtoken";
 
 //Generate JWT
-export const generateJWT = (uid:string):Promise<unknown> => {
+export const generateJWT = (id:string):Promise<unknown> => {
     
     //retorning a promise
     return new Promise((resolve, reject) => {
 
-        const payload:Object = {uid};
+        const payload:Object = {id};
 
         //creating the JWT with the method sign
-        jwt.sign(payload, process.env.SECRETORPRIVATEKY || '', {
+        jwt.sign(payload, process.env.SECRETORPRIVATEKEY || '', {
             expiresIn: '4'
         }, (err, token) => {
 

@@ -5,10 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateJWT = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const generateJWT = (uid) => {
+const generateJWT = (id) => {
     return new Promise((resolve, reject) => {
-        const payload = { uid };
-        jsonwebtoken_1.default.sign(payload, process.env.SECRETORPRIVATEKY || '', {
+        const payload = { id };
+        jsonwebtoken_1.default.sign(payload, process.env.SECRETORPRIVATEKEY || '', {
             expiresIn: '4'
         }, (err, token) => {
             if (err) {

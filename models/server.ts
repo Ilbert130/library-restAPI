@@ -1,13 +1,14 @@
 import express, {Application} from 'express';
 import cors from 'cors';
 import dbConnection from '../db/connection';
-import { UserSchema } from '../routes';
+import { AuthRoutes, UserRoutes } from '../routes';
 
 class Server {
 
     private app:Application;
     private port:string;
     private apiPaths = {
+        auth: '/api/auth',
         user: '/api/users'
     }
 
@@ -41,8 +42,8 @@ class Server {
     }
 
     routes(){
-
-        this.app.use(this.apiPaths.user, UserSchema)
+        this.app.use(this.apiPaths.auth, AuthRoutes);
+        this.app.use(this.apiPaths.user, UserRoutes);
     }
 
     listen() {

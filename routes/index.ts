@@ -1,6 +1,8 @@
-import UserSchema from "./users";
+import UserRoutes from "./users";
+import AuthRoutes from "./auth";
 
 
 export {
-    UserSchema
+    AuthRoutes,
+    UserRoutes
 }

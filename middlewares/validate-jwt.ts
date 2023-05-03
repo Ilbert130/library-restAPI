@@ -8,7 +8,7 @@ interface IUid {
 }
 
 //Validating the JWT
-const validateJWT = async(req:Request, res:Response, next:Function) => {
+export const validateJWT = async(req:Request, res:Response, next:Function) => {
 
     //Getting the JWT from the header of the request
     const token = req.header('x-token');
@@ -25,9 +25,8 @@ const validateJWT = async(req:Request, res:Response, next:Function) => {
     try {
 
         //The verify function is to verify the jwt. It verifies if it's valid and return the payload
-        jwt.verify(token, process.env.SECRETORPRIVATEKY || '', (err, decoded) => {
-            idResult = decoded as IUid;
-        });
+        let resul = jwt.verify(token, 'SECRETORPRIVATEKEY=Esto03sMyPub1cK3y23@913@155DE');
+        console.log(resul);
         
         const user = await UserModel.findOne({_id:idResult.id});
 

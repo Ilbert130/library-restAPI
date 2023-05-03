@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { userGet, usersGet } from "../controllers/users";
+import { userGet, userPost, usersGet } from "../controllers/users";
+import { validatorUserPost } from "../helpers/validators-user";
 
 
 const router:Router = Router();
@@ -11,7 +12,7 @@ router.get('/', usersGet);
 router.get('/:id', userGet);
 
 //POST
-router.post('/', (req, res) => {res.json({msg:'post'})});
+router.post('/',validatorUserPost, userPost);
 
 //PUT
 router.put('/:id', (req, res) => {res.json({msg:'put'})});

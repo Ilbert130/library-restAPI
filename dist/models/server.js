@@ -19,6 +19,7 @@ const routes_1 = require("../routes");
 class Server {
     constructor() {
         this.apiPaths = {
+            auth: '/api/auth',
             user: '/api/users'
         };
         this.app = (0, express_1.default)();
@@ -38,7 +39,8 @@ class Server {
         this.app.use(express_1.default.static('public'));
     }
     routes() {
-        this.app.use(this.apiPaths.user, routes_1.UserSchema);
+        this.app.use(this.apiPaths.auth, routes_1.AuthRoutes);
+        this.app.use(this.apiPaths.user, routes_1.UserRoutes);
     }
     listen() {
         this.app.listen(this.port, () => {

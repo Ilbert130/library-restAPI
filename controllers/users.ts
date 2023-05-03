@@ -44,9 +44,40 @@ export const userGet = async(req:Request, res:Response) => {
         });
         
     } catch (error) {
-        
+
+        res.json({
+            msg: 'Error',
+            error
+        });
     }
 }
 
+//POST
+export const userPost = async(req:Request, res:Response) => {
 
+    try {
+        
+        //Creating the instance for the new user
+        const {name, email, password, role} = req.body;
+        const user = new UserModel({name, email, password, role});
+
+        //encrypting the password
+        const salt = bcryptjs.genSaltSync();
+        user.password = bcryptjs.hashSync(password, salt);
+
+        //Saving the user in the db
+        await user.save();
+
+        res.json({
+            user
+        });
+
+    } catch (error) {
+        
+        res.json({
+            msg: 'Error',
+            error
+        });
+    }
+}
 
