@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { userGet, userPost, usersGet } from "../controllers/users";
-import { validatorUserPost } from "../helpers/validators-user";
+import { userDelete, userGet, userPost, userPut, usersGet } from "../controllers/users";
+import { validatorUserDelete, validatorUserGet, validatorUserPost, validatorUserPut } from "../helpers/validators-user";
 
 
 const router:Router = Router();
@@ -9,15 +9,15 @@ const router:Router = Router();
 router.get('/', usersGet);
 
 //GET
-router.get('/:id', userGet);
+router.get('/:id', validatorUserGet, userGet);
 
 //POST
 router.post('/',validatorUserPost, userPost);
 
 //PUT
-router.put('/:id', (req, res) => {res.json({msg:'put'})});
+router.put('/:id', validatorUserPut, userPut);
 
 //DELETE
-router.delete('/:id', (req, res) => {res.json({msg:'delete'})});
+router.delete('/:id', validatorUserDelete, userDelete);
 
 export = router;

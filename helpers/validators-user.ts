@@ -4,6 +4,7 @@ import { check } from "express-validator";
 import UserModel from "../models/user"
 import { Roles } from "../utilities/roles";
 import { validateFields } from "../middlewares/validate-fields";
+import RoleModel from "../models/role";
 
 
 
@@ -15,6 +16,35 @@ const existEmail = async(email:string) => {
     }
 }
 
+//Verifying user by id
+const existUserById = async(id:string) => {
+    
+    const existUser = await UserModel.findById(id);
+    const state = existUser?.state || false;
+
+    if(!existUser && !state){
+        throw new Error(`The id ${id} doesn't exist`);
+    }
+}
+
+//Verifying role of the user
+const isRoleValid = async(role:string[]) => {
+
+    role.forEach(async(val, ind, arr) => {
+        const exist = await RoleModel.findById(val);
+
+        if(!exist){
+            throw new Error(`The role with id ${val} does'n exist`);
+        }
+    })
+}
+
+//GET
+export const validatorUserGet = [
+    check('id', 'It is not a valid id').isMongoId(),
+    check('id').custom( existUserById),
+    validateFields
+]
 
 //POST
 export const validatorUserPost = [
@@ -31,4 +61,17 @@ export const validatorUserPost = [
 export const validatorUserPut = [
     validateJWT,
     roleVerification(Roles.Admin),
+    check('id', 'It is not a valid id').isMongoId(),
+    check('id').custom( existUserById),
+    check('role').custom(isRoleValid),
+    validateFields
+]
+
+//DELETE
+export const validatorUserDelete = [
+    validateJWT,
+    roleVerification(Roles.Admin),
+    check('id', 'It is not a valid id').isMongoId(),
+    check('id').custom( existUserById),
+    validateFields
 ]

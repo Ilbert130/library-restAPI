@@ -31,16 +31,16 @@ export const usersGet = async(req:Request, res:Response):Promise<void> => {
     }
 }
 
-//GET: id
+//GET: By id
 export const userGet = async(req:Request, res:Response) => {
 
     try {
 
         const {id} = req.params;
-        const usuario = await UserModel.findById(id);
+        const user = await UserModel.findById(id);
 
         res.json({
-            usuario
+            user
         });
         
     } catch (error) {
@@ -62,8 +62,8 @@ export const userPost = async(req:Request, res:Response) => {
         const user = new UserModel({name, email, password, role});
 
         //encrypting the password
-        const salt = bcryptjs.genSaltSync();
-        user.password = bcryptjs.hashSync(password, salt);
+        const salt = await bcryptjs.genSalt();
+        user.password = await bcryptjs.hash(password, salt);
 
         //Saving the user in the db
         await user.save();
@@ -74,6 +74,57 @@ export const userPost = async(req:Request, res:Response) => {
 
     } catch (error) {
         
+        res.json({
+            msg: 'Error',
+            error
+        });
+    }
+}
+
+//PUT
+export const userPut = async(req:Request, res:Response) => {
+
+    try {
+
+        const {id} = req.params;
+        const {_id, password, email, ...rest} = req.body;
+
+        if(password){
+            const salt = await bcryptjs.genSalt();
+            rest.password = await bcryptjs.hash(password, salt);
+        }
+
+        const user = await UserModel.findByIdAndUpdate(id, rest, {new:true});
+
+        res.json({
+            user
+        });
+        
+    } catch (error) {
+
+        res.json({
+            msg: 'Error',
+            error
+        });
+    }
+}
+
+
+//DELETE
+export const userDelete = async(req:Request, res:Response) => {
+
+    try {
+
+        const {id} = req.params;
+
+        const user = await UserModel.findByIdAndUpdate(id, {state:false}, {new:true});
+
+        res.json({
+            user
+        });
+        
+    } catch (error) {
+
         res.json({
             msg: 'Error',
             error

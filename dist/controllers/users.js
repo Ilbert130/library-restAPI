@@ -8,11 +8,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userPost = exports.userGet = exports.usersGet = void 0;
+exports.userDelete = exports.userPut = exports.userPost = exports.userGet = exports.usersGet = void 0;
 const user_1 = __importDefault(require("../models/user"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const usersGet = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -41,9 +52,9 @@ exports.usersGet = usersGet;
 const userGet = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const usuario = yield user_1.default.findById(id);
+        const user = yield user_1.default.findById(id);
         res.json({
-            usuario
+            user
         });
     }
     catch (error) {
@@ -58,8 +69,8 @@ const userPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { name, email, password, role } = req.body;
         const user = new user_1.default({ name, email, password, role });
-        const salt = bcryptjs_1.default.genSaltSync();
-        user.password = bcryptjs_1.default.hashSync(password, salt);
+        const salt = yield bcryptjs_1.default.genSalt();
+        user.password = yield bcryptjs_1.default.hash(password, salt);
         yield user.save();
         res.json({
             user
@@ -73,4 +84,41 @@ const userPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.userPost = userPost;
+const userPut = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const _a = req.body, { _id, password, email } = _a, rest = __rest(_a, ["_id", "password", "email"]);
+        if (password) {
+            const salt = yield bcryptjs_1.default.genSalt();
+            rest.password = yield bcryptjs_1.default.hash(password, salt);
+        }
+        const user = yield user_1.default.findByIdAndUpdate(id, rest, { new: true });
+        res.json({
+            user
+        });
+    }
+    catch (error) {
+        res.json({
+            msg: 'Error',
+            error
+        });
+    }
+});
+exports.userPut = userPut;
+const userDelete = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const user = yield user_1.default.findByIdAndUpdate(id, { state: false }, { new: true });
+        res.json({
+            user
+        });
+    }
+    catch (error) {
+        res.json({
+            msg: 'Error',
+            error
+        });
+    }
+});
+exports.userDelete = userDelete;
 //# sourceMappingURL=users.js.map
