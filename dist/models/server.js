@@ -20,7 +20,8 @@ class Server {
     constructor() {
         this.apiPaths = {
             auth: '/api/auth',
-            user: '/api/users'
+            user: '/api/users',
+            role: '/api/roles'
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '';
@@ -41,6 +42,7 @@ class Server {
     routes() {
         this.app.use(this.apiPaths.auth, routes_1.AuthRoutes);
         this.app.use(this.apiPaths.user, routes_1.UserRoutes);
+        this.app.use(this.apiPaths.role, routes_1.RolesRoutes);
     }
     listen() {
         this.app.listen(this.port, () => {
