@@ -3,7 +3,7 @@ import {prop, getModelForClass } from "@typegoose/typegoose";
 
 export class Role {
 
-    @prop({required:true})
+    @prop({required:true, unique:true})
     public role: string;
 
     @prop({default:true})
