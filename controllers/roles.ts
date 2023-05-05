@@ -85,7 +85,7 @@ export const rolePut = async(req:Request, res:Response) => {
         const {id} = req.params;
         const {role} = req.body;
 
-        const roleUpdate = await RoleModel.findByIdAndUpdate(id, role, {new:true});
+        const roleUpdate = await RoleModel.findByIdAndUpdate(id, {role}, {new:true});
 
         res.json({
             role: roleUpdate
