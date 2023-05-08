@@ -1,7 +1,7 @@
 import express, {Application} from 'express';
 import cors from 'cors';
 import dbConnection from '../db/connection';
-import { AuthRoutes, RolesRoutes, UserRoutes } from '../routes';
+import { AuthRoutes, AuthorRoutes, RolesRoutes, UserRoutes } from '../routes';
 import { roleVerification } from '../middlewares/validate-role';
 
 class Server {
@@ -11,7 +11,8 @@ class Server {
     private apiPaths = {
         auth: '/api/auth',
         user: '/api/users',
-        role: '/api/roles'
+        role: '/api/roles',
+        author: '/api/authors'
     }
 
     constructor() {
@@ -46,7 +47,8 @@ class Server {
     routes(){
         this.app.use(this.apiPaths.auth, AuthRoutes);
         this.app.use(this.apiPaths.user, UserRoutes);
-        this.app.use(this.apiPaths.role, RolesRoutes)
+        this.app.use(this.apiPaths.role, RolesRoutes);
+        this.app.use(this.apiPaths.author, AuthorRoutes);
     }
 
     listen() {
