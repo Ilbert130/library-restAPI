@@ -20,5 +20,6 @@ class User {
     public state:boolean;
 }
 
+
 const UserModel = getModelForClass(User);
 export default UserModel;

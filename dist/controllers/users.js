@@ -32,7 +32,7 @@ const usersGet = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const query = { state: true };
         const [total, users] = yield Promise.all([
             user_1.default.countDocuments(query),
-            user_1.default.find(query)
+            user_1.default.find(query).populate('role', 'role')
                 .skip(Number(since))
                 .limit(Number(limit))
         ]);
@@ -52,7 +52,7 @@ exports.usersGet = usersGet;
 const userGet = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const user = yield user_1.default.findById(id);
+        const user = yield user_1.default.findById(id).populate('role', 'role');
         res.json({
             user
         });

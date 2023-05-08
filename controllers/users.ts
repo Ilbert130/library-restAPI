@@ -12,7 +12,7 @@ export const usersGet = async(req:Request, res:Response):Promise<void> => {
 
         const [ total, users] = await Promise.all([
             UserModel.countDocuments(query),
-            UserModel.find(query)
+            UserModel.find(query).populate('role', 'role')
                 .skip(Number(since))
                 .limit(Number(limit))
         ]);
@@ -37,7 +37,7 @@ export const userGet = async(req:Request, res:Response) => {
     try {
 
         const {id} = req.params;
-        const user = await UserModel.findById(id);
+        const user = await UserModel.findById(id).populate('role', 'role');
 
         res.json({
             user
