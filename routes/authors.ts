@@ -1,5 +1,6 @@
 import {Router} from "express";
 import { validatorAuthorDelete, validatorAuthorGet, validatorAuthorPost, validatorAuthorPut } from "../helpers/validator-author";
+import { authorDelete, authorGet, authorPost, authorPut, authorsGet } from "../controllers/authors";
 
 
 
@@ -7,18 +8,18 @@ const router:Router = Router();
 
 
 //GET
-router.get('/', () => {msg:'getAll'});
+router.get('/', authorsGet);
 
 //GET: id
-router.get('/:id', validatorAuthorGet, () => {msg:'getById'});
+router.get('/:id', validatorAuthorGet, authorGet);
 
 //POST
-router.post('/', validatorAuthorPost, () => {msg:'post'});
+router.post('/', validatorAuthorPost, authorPost);
 
 //PUT
-router.put('/:id', validatorAuthorPut, () => {msg:'put'});
+router.put('/:id', validatorAuthorPut, authorPut);
 
 //DELETE
-router.delete('/:id', validatorAuthorDelete, () => {msg:'delete'});
+router.delete('/:id', validatorAuthorDelete, authorDelete);
 
 export = router;

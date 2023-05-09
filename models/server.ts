@@ -2,7 +2,6 @@ import express, {Application} from 'express';
 import cors from 'cors';
 import dbConnection from '../db/connection';
 import { AuthRoutes, AuthorRoutes, RolesRoutes, UserRoutes } from '../routes';
-import { roleVerification } from '../middlewares/validate-role';
 
 class Server {
 
