@@ -4,57 +4,52 @@ import { roleVerification } from "../middlewares/validate-role";
 import RoleModel from "../models/role";
 import { check } from 'express-validator';
 import { Roles } from "../utilities/roles";
+import AuthorModel from "../models/author";
 
 
 //verifying if the email exist
-const existRole = async(role:string) => {
-    const roleExist = await RoleModel.findOne({role: role});
-    if(roleExist){
-        throw new Error(`The role ${role} already exist`);
+const existAuthor = async(id:string) => {
+    const authorExist = await AuthorModel.findById(id);
+    if(authorExist){
+        throw new Error(`The author with id ${id} already exist`);
     }
 }
 
 //Verifying user by id
-const existRoleById = async(id:string) => {
+const existAuthorById = async(id:string) => {
     
-    const existRole = await RoleModel.findById(id);
-    const state = existRole?.state || false;
+    const existAuthor = await AuthorModel.findById(id);
+    const state = existAuthor?.state || false;
 
-    if(!existRole && !state){
+    if(!existAuthor && !state){
         throw new Error(`The id ${id} doesn't exist`);
     }
 }
 
 //GET
-export const validatorRoleGet = [
+export const validatorAuthorGet = [
     check('id', 'It is not a valid id').isMongoId(),
-    check('id').custom( existRoleById),
+    check('id').custom( existAuthorById),
     validateFields
 ];
 
 //POST 
 export const validatorRolePost = [
-    validateJWT,
-    roleVerification(Roles.Admin),
-    check('role').custom(existRole),
+    check('name', 'The name is required').not().isEmpty(),
+    check('lastName', 'The lastName is required').not().isEmpty(),
     validateFields
 ];
 
 //PUT
 export const validatorRolePut = [
-    validateJWT,
-    roleVerification(Roles.Admin),
     check('id', 'It is not a valid id').isMongoId(),
-    check('id').custom( existRoleById),
-    check('role').custom(existRole),
+    check('id').custom( existAuthorById),
     validateFields
 ];
 
 //DELETE
 export const validatorRoleDelete = [
-    validateJWT,
-    roleVerification(Roles.Admin),
     check('id', 'It is not a valid id').isMongoId(),
-    check('id').custom( existRoleById),
+    check('id').custom( existAuthorById),
     validateFields
 ];
