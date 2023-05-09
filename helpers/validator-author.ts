@@ -34,21 +34,21 @@ export const validatorAuthorGet = [
 ];
 
 //POST 
-export const validatorRolePost = [
+export const validatorAuthorPost = [
     check('name', 'The name is required').not().isEmpty(),
     check('lastName', 'The lastName is required').not().isEmpty(),
     validateFields
 ];
 
 //PUT
-export const validatorRolePut = [
+export const validatorAuthorPut = [
     check('id', 'It is not a valid id').isMongoId(),
     check('id').custom( existAuthorById),
     validateFields
 ];
 
 //DELETE
-export const validatorRoleDelete = [
+export const validatorAuthorDelete = [
     check('id', 'It is not a valid id').isMongoId(),
     check('id').custom( existAuthorById),
     validateFields
