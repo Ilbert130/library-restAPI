@@ -14,7 +14,10 @@ export class Book {
     public edition: string;
 
     @prop()
-    public amount?: number;   
+    public amount?: number;  
+    
+    @prop()
+    public image?: string;
 
     @prop({ref:()=> Author, required:true})
     public author: Ref<Author>[];
