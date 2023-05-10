@@ -2,18 +2,18 @@ import {prop, getModelForClass, Ref } from "@typegoose/typegoose";
 import {Role} from './role';
 
 //Creating the model
-class User {
+export class User {
 
-    @prop({require:true})
+    @prop({required:true})
     public name: string;
 
-    @prop({require:true, unique:true})
+    @prop({required:true, unique:true})
     public email: string;
 
-    @prop({require:true})
+    @prop({required:true})
     public password: string
 
-    @prop({ref:()=> Role, require:true})
+    @prop({ref:()=> Role, required:true})
     public role: Ref<Role>[];
 
     @prop({default:true})

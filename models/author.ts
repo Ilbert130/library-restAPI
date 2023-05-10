@@ -1,7 +1,7 @@
 import {prop, getModelForClass} from "@typegoose/typegoose";
 
 //Creating the model
-class author {
+export class Author {
 
     @prop({require:true})
     public name: string;
@@ -13,5 +13,5 @@ class author {
     public state:boolean;
 }
 
-const AuthorModel = getModelForClass(author);
+const AuthorModel = getModelForClass(Author);
 export default AuthorModel;
