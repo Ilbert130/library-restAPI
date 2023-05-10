@@ -22,7 +22,8 @@ class Server {
             auth: '/api/auth',
             user: '/api/users',
             role: '/api/roles',
-            author: '/api/authors'
+            author: '/api/authors',
+            book: '/api/books'
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '';
@@ -45,6 +46,7 @@ class Server {
         this.app.use(this.apiPaths.user, routes_1.UserRoutes);
         this.app.use(this.apiPaths.role, routes_1.RolesRoutes);
         this.app.use(this.apiPaths.author, routes_1.AuthorRoutes);
+        this.app.use(this.apiPaths.book, routes_1.BookRoutes);
     }
     listen() {
         this.app.listen(this.port, () => {
