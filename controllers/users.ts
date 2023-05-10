@@ -87,7 +87,7 @@ export const userPut = async(req:Request, res:Response) => {
     try {
 
         const {id} = req.params;
-        const {_id, password, email, ...rest} = req.body;
+        const {_id, password, ...rest} = req.body;
 
         if(password){
             const salt = await bcryptjs.genSalt();

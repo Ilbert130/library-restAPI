@@ -20,7 +20,11 @@ const existRoleById = async(id:string) => {
     const existRole = await RoleModel.findById(id);
     const state = existRole?.state || false;
 
-    if(!existRole && !state){
+    if(!existRole){
+        throw new Error(`The id ${id} doesn't exist`);
+    }
+
+    if(!state){
         throw new Error(`The id ${id} doesn't exist`);
     }
 }

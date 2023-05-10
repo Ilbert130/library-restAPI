@@ -22,7 +22,11 @@ const existUserById = async(id:string) => {
     const existUser = await UserModel.findById(id);
     const state = existUser?.state || false;
 
-    if(!existUser && !state){
+    if(!existUser){
+        throw new Error(`The id ${id} doesn't exist`);
+    }
+
+    if(!state){
         throw new Error(`The id ${id} doesn't exist`);
     }
 }
@@ -53,6 +57,7 @@ export const validatorUserPost = [
     check('email', 'The email address is not valid').isEmail(),
     check('email').custom(email => existEmail(email)),
     check('name', 'The name is required').not().isEmpty(),
+    check('role').custom(isRoleValid),
     check('password', 'The password must have at least 6 characters').isLength({min:6}),
     validateFields
 ];

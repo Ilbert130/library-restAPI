@@ -87,7 +87,7 @@ exports.userPost = userPost;
 const userPut = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const _a = req.body, { _id, password, email } = _a, rest = __rest(_a, ["_id", "password", "email"]);
+        const _a = req.body, { _id, password } = _a, rest = __rest(_a, ["_id", "password"]);
         if (password) {
             const salt = yield bcryptjs_1.default.genSalt();
             rest.password = yield bcryptjs_1.default.hash(password, salt);

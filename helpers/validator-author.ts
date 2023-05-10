@@ -21,7 +21,11 @@ const existAuthorById = async(id:string) => {
     const existAuthor = await AuthorModel.findById(id);
     const state = existAuthor?.state || false;
 
-    if(!existAuthor && !state){
+    if(!existAuthor){
+        throw new Error(`The id ${id} doesn't exist`);
+    }
+
+    if(!state){
         throw new Error(`The id ${id} doesn't exist`);
     }
 }

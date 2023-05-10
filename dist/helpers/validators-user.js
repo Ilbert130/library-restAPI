@@ -29,7 +29,10 @@ const existEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
 const existUserById = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const existUser = yield user_1.default.findById(id);
     const state = (existUser === null || existUser === void 0 ? void 0 : existUser.state) || false;
-    if (!existUser && !state) {
+    if (!existUser) {
+        throw new Error(`The id ${id} doesn't exist`);
+    }
+    if (!state) {
         throw new Error(`The id ${id} doesn't exist`);
     }
 });
@@ -52,6 +55,7 @@ exports.validatorUserPost = [
     (0, express_validator_1.check)('email', 'The email address is not valid').isEmail(),
     (0, express_validator_1.check)('email').custom(email => existEmail(email)),
     (0, express_validator_1.check)('name', 'The name is required').not().isEmpty(),
+    (0, express_validator_1.check)('role').custom(isRoleValid),
     (0, express_validator_1.check)('password', 'The password must have at least 6 characters').isLength({ min: 6 }),
     validate_fields_1.validateFields
 ];
