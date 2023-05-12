@@ -13,7 +13,7 @@ export class Book {
     @prop({required:true})
     public edition: string;
 
-    @prop()
+    @prop({default:0})
     public amount?: number;  
     
     @prop()
