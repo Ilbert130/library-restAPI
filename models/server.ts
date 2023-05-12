@@ -2,6 +2,7 @@ import express, {Application} from 'express';
 import cors from 'cors';
 import dbConnection from '../db/connection';
 import { AuthRoutes, AuthorRoutes, BookRoutes, RolesRoutes, UserRoutes } from '../routes';
+import router from '../routes/books';
 
 class Server {
 
@@ -49,7 +50,7 @@ class Server {
         this.app.use(this.apiPaths.user, UserRoutes);
         this.app.use(this.apiPaths.role, RolesRoutes);
         this.app.use(this.apiPaths.author, AuthorRoutes);
-        this.app.use(this.apiPaths.book, BookRoutes);
+        this.app.use(this.apiPaths.book, router);
     }
 
     listen() {

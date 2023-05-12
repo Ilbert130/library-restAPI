@@ -46,7 +46,7 @@ export const validatorBookGet = [
 //POST
 export const validatorBookPost = [
     validateJWT,
-    roleVerification(Roles.Ventas),
+    roleVerification(Roles.Ventas, Roles.Admin),
     check('name', 'The name is required').not().isEmpty(),
     check('description', 'The description is required').not().isEmpty(),
     check('edition', 'The edition is required').not().isEmpty(),
@@ -57,7 +57,7 @@ export const validatorBookPost = [
 //PUT
 export const validatorBookPut = [
     validateJWT,
-    roleVerification(Roles.Ventas),
+    roleVerification(Roles.Ventas, Roles.Admin),
     check('id', 'It is not a valid id').isMongoId(),
     check('id').custom( existBookById),
     check('author').custom(isAuthorValid),
@@ -67,7 +67,7 @@ export const validatorBookPut = [
 //DELETE
 export const validatorBookDelete = [
     validateJWT,
-    roleVerification(Roles.Ventas),
+    roleVerification(Roles.Ventas, Roles.Admin),
     check('id', 'It is not a valid id').isMongoId(),
     check('id').custom( existBookById),
     validateFields

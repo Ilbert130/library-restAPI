@@ -16,6 +16,7 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const connection_1 = __importDefault(require("../db/connection"));
 const routes_1 = require("../routes");
+const books_1 = __importDefault(require("../routes/books"));
 class Server {
     constructor() {
         this.apiPaths = {
@@ -46,7 +47,7 @@ class Server {
         this.app.use(this.apiPaths.user, routes_1.UserRoutes);
         this.app.use(this.apiPaths.role, routes_1.RolesRoutes);
         this.app.use(this.apiPaths.author, routes_1.AuthorRoutes);
-        this.app.use(this.apiPaths.book, routes_1.BookRoutes);
+        this.app.use(this.apiPaths.book, books_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {

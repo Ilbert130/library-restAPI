@@ -2,8 +2,6 @@ import { Request, Response } from "express";
 import BookModel from "../models/book";
 
 
-
-
 //GET 
 export const booksGet = async(req:Request, res:Response) => {
 
