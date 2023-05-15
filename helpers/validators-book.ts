@@ -3,6 +3,7 @@ import { validateJWT } from "../middlewares/validate-jwt";
 import { roleVerification } from "../middlewares/validate-role";
 import AuthorModel from "../models/author";
 import BookModel from "../models/book";
+import TypeBookModel from "../models/typeBook";
 import { Roles } from "../utilities/roles";
 import { check } from 'express-validator';
 
@@ -35,6 +36,18 @@ const isAuthorValid = async(author:string[]) => {
     })
 }
 
+//Verifying role of the user
+const isTypeBookValid = async(typeBook:string[]) => {
+
+    typeBook.forEach(async(val, ind, arr) => {
+        const exist = await TypeBookModel.findById(val);
+
+        if(!exist){
+            throw new Error(`The role with id ${val} does'n exist`);
+        }
+    })
+}
+
 
 //GET
 export const validatorBookGet = [
@@ -51,6 +64,7 @@ export const validatorBookPost = [
     check('description', 'The description is required').not().isEmpty(),
     check('edition', 'The edition is required').not().isEmpty(),
     check('author').custom(isAuthorValid),
+    check('type').custom(isTypeBookValid),
     validateFields
 ]
 
@@ -61,6 +75,7 @@ export const validatorBookPut = [
     check('id', 'It is not a valid id').isMongoId(),
     check('id').custom( existBookById),
     check('author').custom(isAuthorValid),
+    check('type').custom(isTypeBookValid),
     validateFields
 ]
 
