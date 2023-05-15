@@ -1,8 +1,7 @@
 import express, {Application} from 'express';
 import cors from 'cors';
 import dbConnection from '../db/connection';
-import { AuthRoutes, AuthorRoutes, BookRoutes, RolesRoutes, UserRoutes } from '../routes';
-import router from '../routes/books';
+import { AuthRoutes, AuthorRoutes, BookRoutes, RolesRoutes, TypeBookRoutes, UserRoutes } from '../routes';
 
 class Server {
 
@@ -51,8 +50,8 @@ class Server {
         this.app.use(this.apiPaths.user, UserRoutes);
         this.app.use(this.apiPaths.role, RolesRoutes);
         this.app.use(this.apiPaths.author, AuthorRoutes);
-        this.app.use(this.apiPaths.book, router);
-        this.app.use(this.apiPaths.typeBook, );
+        this.app.use(this.apiPaths.book, BookRoutes);
+        this.app.use(this.apiPaths.typeBook, TypeBookRoutes);
     }
 
     listen() {

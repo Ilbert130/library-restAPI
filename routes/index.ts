@@ -3,6 +3,7 @@ import AuthRoutes from "./auth";
 import RolesRoutes from "./roles";
 import AuthorRoutes from './authors';
 import BookRoutes from './books';
+import TypeBookRoutes from "./typeBooks";
 
 
 export {
@@ -10,5 +11,6 @@ export {
     UserRoutes,
     RolesRoutes,
     AuthorRoutes,
-    BookRoutes
+    BookRoutes,
+    TypeBookRoutes
 }
