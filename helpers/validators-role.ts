@@ -50,7 +50,6 @@ export const validatorRolePut = [
     roleVerification(Roles.Admin),
     check('id', 'It is not a valid id').isMongoId(),
     check('id').custom( existRoleById),
-    check('role').custom(existRole),
     validateFields
 ];
 

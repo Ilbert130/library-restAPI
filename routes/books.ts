@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { bookDelete, bookGet, bookPost, bookPut, booksGet } from '../controllers/books';
-import { validatorBookDelete, validatorBookGet, validatorBookPost, validatorBookPut } from '../helpers/validator-book';
+import { validatorBookDelete, validatorBookGet, validatorBookPost, validatorBookPut } from '../helpers/validators-book';
 
 
 const router:Router = Router();
