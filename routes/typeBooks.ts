@@ -1,16 +1,17 @@
 import { Router } from "express";
+import { validatorTypeBookDelete, validatorTypeBookGet, validatorTypeBookPost, validatorTypeBookPut } from "../helpers/validators-typeBook";
 
 
 const router = Router();
 
 router.get('/', );
 
-router.get('/:id', );
+router.get('/:id', validatorTypeBookGet);
 
-router.post('/', );
+router.post('/', validatorTypeBookPost);
 
-router.put('/:id', );
+router.put('/:id', validatorTypeBookPut);
 
-router.delete('/:id', );
+router.delete('/:id', validatorTypeBookDelete);
 
 export = router;
