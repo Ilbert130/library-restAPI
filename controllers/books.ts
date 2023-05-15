@@ -11,7 +11,7 @@ export const booksGet = async(req:Request, res:Response) => {
 
         const [total, books] = await Promise.all([
             BookModel.countDocuments(query),
-            BookModel.find(query).populate('author')
+            BookModel.find(query).populate('author').populate('type')
                 .skip(+since)
                 .limit(+limit)
         ]);
@@ -36,7 +36,7 @@ export const bookGet = async(req:Request, res:Response) => {
     try {
 
         const {id} = req.params;
-        const book = await BookModel.findById(id).populate('author');
+        const book = await BookModel.findById(id).populate('author').populate('type');
 
         res.json({
             book
@@ -56,8 +56,8 @@ export const bookPost = async(req:Request, res:Response) => {
 
     try {
 
-        const {name, description, edition, author } = req.body;
-        const book = new BookModel({name, description, edition, author});
+        const {name, description, edition, author, type } = req.body;
+        const book = new BookModel({name, description, edition, author, type});
 
         await book.save();
 
@@ -78,9 +78,9 @@ export const bookPost = async(req:Request, res:Response) => {
 export const bookPut = async(req:Request, res:Response) => {
     try {
         const {id} = req.params;
-        const {name, description, edition, amount, author} = req.body;
+        const {name, description, edition, amount, author, type} = req.body;
 
-        const book = await BookModel.findByIdAndUpdate(id, {name, description, edition, amount, author}, {new:true});
+        const book = await BookModel.findByIdAndUpdate(id, {name, description, edition, amount, author, type}, {new:true});
 
         res.json({
             book
