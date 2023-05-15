@@ -1,5 +1,6 @@
 import {prop, getModelForClass, Ref } from "@typegoose/typegoose";
 import { Author } from "./author";
+import { TypeBook } from "./typeBook";
 
 
 export class Book {
@@ -21,6 +22,9 @@ export class Book {
 
     @prop({ref:()=> Author, required:true})
     public author: Ref<Author>[];
+
+    @prop({ref:()=> TypeBook, required:true})
+    public type: Ref<TypeBook>[];
 
     @prop({default:true})
     public state:boolean;
