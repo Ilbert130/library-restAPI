@@ -1,6 +1,6 @@
 
 
-export enum Roles {
+export enum Colletion {
     User = 'User',
     Book = 'Book'
 }
