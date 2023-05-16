@@ -1,5 +1,6 @@
 import express, {Application} from 'express';
 import cors from 'cors';
+import fileUpload, {  } from "express-fileupload";
 import dbConnection from '../db/connection';
 import { AuthRoutes, AuthorRoutes, BookRoutes, RolesRoutes, TypeBookRoutes, UserRoutes } from '../routes';
 
@@ -44,6 +45,12 @@ class Server {
 
         //Setting public directory
         this.app.use(express.static('public'));
+
+        this.app.use(fileUpload({
+            useTempFiles : true,
+            tempFileDir : '/tmp/',
+            createParentPath: true  //To create folders if they don't exist
+        }));
     }
 
     routes(){

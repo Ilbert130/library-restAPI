@@ -7,7 +7,6 @@ import RoleModel from "../models/role";
 export const rolesGet = async(req:Request, res:Response) => {
 
     try {
-        
         const {limit = 5, since = 0} = req.query;
         const query = {state:true};
 

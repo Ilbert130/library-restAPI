@@ -1,13 +1,26 @@
 import { v4 as uuid } from "uuid";
 import path from "path";
+import fileUpload from "express-fileupload";
 
 
-export const uploadFile = (files:any, validExtensions:string[] = ['png', 'jpg', 'jpeg', 'gif', 'img'], folders:string) => {
+interface File {
+    name:string;
+    data: Buffer;
+    size: number;
+    encoding: string;
+    tempFilePath: string;
+    truncated: boolean;
+    mimetype: string;
+    md5: string;
+    mv: Function;
+}
+
+export const uploadFile = (files:fileUpload.FileArray, validExtensions:string[] = ['png', 'jpg', 'jpeg', 'gif', 'img'], folders:string) => {
 
     //Creating a Promise
     return new Promise((resolve, reject) => {
         //Get file
-        const {file} = files;
+        const file:File = files.file as File;
 
         //Get extensions
         const cutName = file.name.split('.');
