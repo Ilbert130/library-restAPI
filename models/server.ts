@@ -13,7 +13,8 @@ class Server {
         role: '/api/roles',
         author: '/api/authors',
         book: '/api/books',
-        typeBook: '/api/typebook'
+        typeBook: '/api/typebook',
+        upload: '/api/uploads'
     }
 
     constructor() {
@@ -52,6 +53,7 @@ class Server {
         this.app.use(this.apiPaths.author, AuthorRoutes);
         this.app.use(this.apiPaths.book, BookRoutes);
         this.app.use(this.apiPaths.typeBook, TypeBookRoutes);
+        this.app.use(this.apiPaths.upload, );
     }
 
     listen() {
