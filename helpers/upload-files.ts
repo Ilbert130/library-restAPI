@@ -1,26 +1,14 @@
 import { v4 as uuid } from "uuid";
 import path from "path";
-import fileUpload from "express-fileupload";
+import fileUpload, { UploadedFile } from "express-fileupload";
 
 
-interface File {
-    name:string;
-    data: Buffer;
-    size: number;
-    encoding: string;
-    tempFilePath: string;
-    truncated: boolean;
-    mimetype: string;
-    md5: string;
-    mv: Function;
-}
-
-export const uploadFile = (files:fileUpload.FileArray, validExtensions:string[] = ['png', 'jpg', 'jpeg', 'gif', 'img'], folders:string) => {
+export const uploadFile = (files:fileUpload.FileArray|any, validExtensions:string[] = ['png', 'jpg', 'jpeg', 'gif', 'img'], folders:string) => {
 
     //Creating a Promise
     return new Promise((resolve, reject) => {
         //Get file
-        const file:File = files.file as File;
+        const file = files.file as UploadedFile;
 
         //Get extensions
         const cutName = file.name.split('.');
@@ -35,7 +23,8 @@ export const uploadFile = (files:fileUpload.FileArray, validExtensions:string[] 
         const nameFile = uuid() + '.' + extension;
 
         //creating the path
-        const uploadPath = path.join(__dirname, '../uploads/', folders, nameFile);
+        // const uploadPath = path.join(__dirname, '../uploads/', folders, nameFile);
+        const uploadPath = `./uploads/${folders}/${nameFile}`;
 
         //moving the file to the path
         file.mv(uploadPath, (err:any) => {
@@ -45,5 +34,5 @@ export const uploadFile = (files:fileUpload.FileArray, validExtensions:string[] 
 
             resolve(nameFile);
         });
-    })
+    });
 }

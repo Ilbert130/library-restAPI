@@ -2,7 +2,7 @@ import express, {Application} from 'express';
 import cors from 'cors';
 import fileUpload, {  } from "express-fileupload";
 import dbConnection from '../db/connection';
-import { AuthRoutes, AuthorRoutes, BookRoutes, RolesRoutes, TypeBookRoutes, UserRoutes } from '../routes';
+import { AuthRoutes, AuthorRoutes, BookRoutes, RolesRoutes, TypeBookRoutes, UploadRoutes, UserRoutes } from '../routes';
 
 class Server {
 
@@ -60,7 +60,7 @@ class Server {
         this.app.use(this.apiPaths.author, AuthorRoutes);
         this.app.use(this.apiPaths.book, BookRoutes);
         this.app.use(this.apiPaths.typeBook, TypeBookRoutes);
-        this.app.use(this.apiPaths.upload, );
+        this.app.use(this.apiPaths.upload, UploadRoutes);
     }
 
     listen() {

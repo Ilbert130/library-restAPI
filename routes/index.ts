@@ -4,7 +4,7 @@ import RolesRoutes from "./roles";
 import AuthorRoutes from './authors';
 import BookRoutes from './books';
 import TypeBookRoutes from "./typeBooks";
-
+import UploadRoutes from "./uploads";
 
 export {
     AuthRoutes,
@@ -12,5 +12,6 @@ export {
     RolesRoutes,
     AuthorRoutes,
     BookRoutes,
-    TypeBookRoutes
+    TypeBookRoutes,
+    UploadRoutes
 }

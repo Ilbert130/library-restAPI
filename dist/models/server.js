@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
+const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const connection_1 = __importDefault(require("../db/connection"));
 const routes_1 = require("../routes");
 class Server {
@@ -24,7 +25,8 @@ class Server {
             role: '/api/roles',
             author: '/api/authors',
             book: '/api/books',
-            typeBook: '/api/typebook'
+            typeBook: '/api/typebook',
+            upload: '/api/uploads'
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '';
@@ -41,6 +43,11 @@ class Server {
         this.app.use((0, cors_1.default)());
         this.app.use(express_1.default.json());
         this.app.use(express_1.default.static('public'));
+        this.app.use((0, express_fileupload_1.default)({
+            useTempFiles: true,
+            tempFileDir: '/tmp/',
+            createParentPath: true
+        }));
     }
     routes() {
         this.app.use(this.apiPaths.auth, routes_1.AuthRoutes);
@@ -49,6 +56,7 @@ class Server {
         this.app.use(this.apiPaths.author, routes_1.AuthorRoutes);
         this.app.use(this.apiPaths.book, routes_1.BookRoutes);
         this.app.use(this.apiPaths.typeBook, routes_1.TypeBookRoutes);
+        this.app.use(this.apiPaths.upload, routes_1.UploadRoutes);
     }
     listen() {
         this.app.listen(this.port, () => {

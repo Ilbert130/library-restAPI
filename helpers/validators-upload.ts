@@ -1,7 +1,7 @@
 import { check } from "express-validator";
 import { validateFile } from "../middlewares/validate-file";
 import { validateFields } from "../middlewares/validate-fields";
-import { Colletion } from "../utilities/colettion";
+import { Collection } from "../utilities/colecttion";
 
 
 const allowcollections = (collection:string, collections:string[]) => {
@@ -20,6 +20,6 @@ const allowcollections = (collection:string, collections:string[]) => {
 export const validatorUploadPut = [
     validateFile,
     check('id', 'It is not a valid id').isMongoId(),
-    check('collection').custom( c => allowcollections(c, [Colletion.Book, Colletion.User])),
+    check('collection').custom( c => allowcollections(c, [Collection.Book, Collection.User])),
     validateFields
 ];
