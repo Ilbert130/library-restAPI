@@ -5,6 +5,7 @@ import AuthorRoutes from './authors';
 import BookRoutes from './books';
 import TypeBookRoutes from "./typeBooks";
 import UploadRoutes from "./uploads";
+import ServiceRoutes from "./services";
 
 export {
     AuthRoutes,
@@ -13,5 +14,6 @@ export {
     AuthorRoutes,
     BookRoutes,
     TypeBookRoutes,
-    UploadRoutes
+    UploadRoutes,
+    ServiceRoutes
 }

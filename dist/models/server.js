@@ -58,7 +58,7 @@ class Server {
         this.app.use(this.apiPaths.book, routes_1.BookRoutes);
         this.app.use(this.apiPaths.typeBook, routes_1.TypeBookRoutes);
         this.app.use(this.apiPaths.upload, routes_1.UploadRoutes);
-        this.app.use(this.apiPaths.service);
+        this.app.use(this.apiPaths.service, routes_1.ServiceRoutes);
     }
     listen() {
         this.app.listen(this.port, () => {
