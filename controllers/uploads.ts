@@ -5,7 +5,6 @@ import BookModel from "../models/book";
 import path from 'path';
 import fs from "fs";
 import { uploadFile } from "../helpers/upload-files";
-import { UploadedFile } from "express-fileupload";
 
 
 //PUT
@@ -62,6 +61,6 @@ export const updateImage = async(req:Request, res:Response) => {
 const validateModel = (model:any, id:string, res:Response) =>{
 
     return res.status(400).json({
-        msg: `No existe un usuario con el id ${id}`
+        msg: `A ${model} with id ${id} doesn't exist`
     });
 }
