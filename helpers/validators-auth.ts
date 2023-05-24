@@ -1,7 +1,13 @@
 import { check } from 'express-validator';
 import { validateFields } from '../middlewares/validate-fields';
+import { validateJWT } from '../middlewares/validate-jwt';
 
 
+
+//GET
+export const validatorAuthGet = [
+    validateJWT
+]
 
 //POST: verifying the email and password
 export const validatorAuthPost = [

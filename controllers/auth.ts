@@ -5,7 +5,30 @@ import { generateJWT } from "../helpers/generate-jwt";
 
 
 
+//GET
+export const renewToken = async(req:Request, res:Response) => {
 
+    try {
+
+        const {id} = req.body.user;
+        const [user, token] = await Promise.all([
+            UserModel.findById(id),
+            generateJWT(id)
+        ]) 
+
+        res.json({
+            user,
+            token
+        });
+        
+    } catch (error) {
+        
+        res.json({
+            msg: 'Error',
+            error
+        });
+    }
+}
 
 //POST
 export const login = async(req:Request, res:Response) => {
