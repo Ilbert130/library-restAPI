@@ -7,7 +7,7 @@ import { validatorAuthPost, validatorAuthGet } from '../helpers/validators-auth'
 const router = Router();
 
 //GET
-router.get('/', validatorAuthGet, renewToken)
+router.get('/', validatorAuthGet, renewToken);
 
 //POST
 router.post('/login', validatorAuthPost, login);

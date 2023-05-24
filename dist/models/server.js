@@ -26,7 +26,8 @@ class Server {
             author: '/api/authors',
             book: '/api/books',
             typeBook: '/api/typebook',
-            upload: '/api/uploads'
+            upload: '/api/uploads',
+            service: '/api/services'
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '';
@@ -57,6 +58,7 @@ class Server {
         this.app.use(this.apiPaths.book, routes_1.BookRoutes);
         this.app.use(this.apiPaths.typeBook, routes_1.TypeBookRoutes);
         this.app.use(this.apiPaths.upload, routes_1.UploadRoutes);
+        this.app.use(this.apiPaths.service);
     }
     listen() {
         this.app.listen(this.port, () => {
