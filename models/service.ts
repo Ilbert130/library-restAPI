@@ -1,4 +1,4 @@
-import { Ref, prop } from "@typegoose/typegoose";
+import { Ref, getModelForClass, prop } from "@typegoose/typegoose";
 import { User } from "./user";
 import { Book } from "./book";
 
@@ -15,14 +15,20 @@ export class Service {
     public requestState:boolean;
 
     @prop({required:true})
-    public requestStartDate: string;
+    public requestSubmitedDate: string;
 
     @prop()
     public requestAprovedDate?: string;
 
-    @prop({required:true})
-    public bookReturnDate: string;
+    @prop()
+    public bookReturnDate?: string;
+
+    @prop()
+    public userReturnBookDate?: string;
 
     @prop({default:true})
     public state:boolean;
 }
+
+const ServiceModel = getModelForClass(Service);
+export default ServiceModel;
