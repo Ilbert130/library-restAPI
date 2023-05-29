@@ -41,6 +41,7 @@ export const createService = async(req:Request, res:Response) => {
     }
 }
 
+
 //PUT: Request Pending
 export const submitAgainService = async(req:Request, res:Response) => {
 
@@ -96,7 +97,25 @@ export const bookReturnedStatus = async(req:Request, res:Response) => {
 }
 
 
+//DELETE 
+export const serviceDelete = async(req:Request, res:Response) => {
+    try {
+        const {id} = req.params;
+        const service = await ServiceModel.findByIdAndUpdate(id, {state:false}, {new:true});
 
+        res.json({
+            service
+        });
+        
+    } catch (error) {
+        res.json({
+            msg: 'Error',
+            error
+        });
+    }
+ }
+
+//Private method
 const servicePending = async(res:Response, service:any, user:string, book:string) => {
 
     service = new ServiceModel({
@@ -113,6 +132,7 @@ const servicePending = async(res:Response, service:any, user:string, book:string
     });
 }
 
+//Private method
 const getDate = (bookReturn:boolean = false):string => {
 
     const dateTimeNow = new Date();
