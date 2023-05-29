@@ -7,6 +7,48 @@ import fs from "fs";
 import { uploadFile } from "../helpers/upload-files";
 
 
+//GET
+export const imageGet = async(req:Request, res:Response) => {
+
+    const {id, collection} = req.params;
+
+    let pathImagen;
+    let model;
+    let count:number = 0;
+
+    switch (collection) {
+        case Collection.User:
+            model = await UserModel.findById(id) || new UserModel({});;
+            count = 1;
+
+            if(!model){
+                validateModel(model, id, res);
+            }
+            break;
+
+        case Collection.Book:
+            model = await BookModel.findById(id) || new UserModel({});;
+            count = 2;
+
+            if(!model){
+                validateModel(model, id, res);
+            }
+            break;
+        default:
+            model = new UserModel({});
+    }
+
+    if(model.image){
+        pathImagen = path.join(__dirname, '../uploads', collection, model.image);
+        if(fs.existsSync(pathImagen)){
+            return res.sendFile(pathImagen);
+        }
+    }
+
+    pathImagen = path.join(__dirname, '../assets/no-image.jpg');
+    res.sendFile(pathImagen);
+}
+
 //PUT
 export const updateImage = async(req:Request, res:Response) => {
 
