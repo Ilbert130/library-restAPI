@@ -12,14 +12,12 @@ export const imageGet = async(req:Request, res:Response) => {
 
     const {id, collection} = req.params;
 
-    let pathImagen;
+    let pathImage;
     let model;
-    let count:number = 0;
 
     switch (collection) {
         case Collection.User:
-            model = await UserModel.findById(id) || new UserModel({});;
-            count = 1;
+            model = await UserModel.findById(id) || new UserModel({});
 
             if(!model){
                 validateModel(model, id, res);
@@ -27,9 +25,7 @@ export const imageGet = async(req:Request, res:Response) => {
             break;
 
         case Collection.Book:
-            model = await BookModel.findById(id) || new UserModel({});;
-            count = 2;
-
+            model = await BookModel.findById(id) || new UserModel({});
             if(!model){
                 validateModel(model, id, res);
             }
@@ -39,14 +35,23 @@ export const imageGet = async(req:Request, res:Response) => {
     }
 
     if(model.image){
-        pathImagen = path.join(__dirname, '../uploads', collection, model.image);
-        if(fs.existsSync(pathImagen)){
-            return res.sendFile(pathImagen);
-        }
+        pathImage = path.join(__dirname, '../uploads', collection, model.image);
+        return res.sendFile(pathImage);
+        // if(fs.existsSync(pathImagen)){
+        //     return res.sendFile(pathImagen);
+        // }
     }
 
-    pathImagen = path.join(__dirname, '../assets/no-image.jpg');
-    res.sendFile(pathImagen);
+    pathImage = path.join(__dirname, '../assets/no-image.jpg');
+    res.sendFile(pathImage);
+}
+
+//POST
+export const createImage = async(req:Request, res:Response) => {
+
+    const {collection} = req.params;
+    const image:string = await uploadFile(req.files || '', undefined, collection) as string;
+    res.json({image});
 }
 
 //PUT
@@ -79,11 +84,11 @@ export const updateImage = async(req:Request, res:Response) => {
     }
 
     if(model.image){
-
         const pathImage = path.join(__dirname, '../uploads', collection, model.image);
-        if(fs.existsSync(pathImage)){
-            fs.unlinkSync(pathImage)
-        }
+        return res.sendFile(pathImage);
+        // if(fs.existsSync(pathImage)){
+        //     return res.sendFile(pathImage);
+        // }
     }
 
     model.image = await uploadFile(req.files || '', undefined, collection) as string;

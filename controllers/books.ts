@@ -56,8 +56,8 @@ export const bookPost = async(req:Request, res:Response) => {
 
     try {
 
-        const {name, description, edition, author, type } = req.body;
-        const book = new BookModel({name, description, edition, author, type});
+        const {name, description, edition, author, type, image = '' } = req.body;
+        const book = new BookModel({name, description, edition, author, type, image});
 
         await book.save();
 

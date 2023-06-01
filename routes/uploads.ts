@@ -1,9 +1,15 @@
 import { Router } from 'express';
-import { validatorUploadPut } from '../helpers/validators-upload';
-import { updateImage } from '../controllers/uploads';
+import { validatorUploadGet, validatorUploadPost, validatorUploadPut } from '../helpers/validators-upload';
+import { createImage, imageGet, updateImage } from '../controllers/uploads';
 
 
 const router = Router();
+
+//GET
+router.get('/:collection/:id', validatorUploadGet, imageGet);
+
+//POST
+router.post('/:collection', validatorUploadPost, createImage)
 
 //PUT
 router.put('/:collection/:id', validatorUploadPut, updateImage);

@@ -58,8 +58,8 @@ export const userPost = async(req:Request, res:Response) => {
     try {
         
         //Creating the instance for the new user
-        const {name, email, password, role} = req.body;
-        const user = new UserModel({name, email, password, role});
+        const {name, email, password, role, image = ''} = req.body;
+        const user = new UserModel({name, email, password, role, image});
 
         //encrypting the password
         const salt = await bcryptjs.genSalt();

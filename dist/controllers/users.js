@@ -67,8 +67,8 @@ const userGet = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.userGet = userGet;
 const userPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { name, email, password, role } = req.body;
-        const user = new user_1.default({ name, email, password, role });
+        const { name, email, password, role, image = '' } = req.body;
+        const user = new user_1.default({ name, email, password, role, image });
         const salt = yield bcryptjs_1.default.genSalt();
         user.password = yield bcryptjs_1.default.hash(password, salt);
         yield user.save();

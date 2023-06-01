@@ -16,6 +16,20 @@ const allowcollections = (collection:string, collections:string[]) => {
 } 
 
 
+//GET
+export const validatorUploadGet = [
+    check('id', 'It is not a valid id').isMongoId(),
+    check('collection').custom( c => allowcollections(c, [Collection.Book, Collection.User])),
+    validateFields
+];
+
+//POST
+export const validatorUploadPost = [
+    validateFile,
+    check('collection').custom( c => allowcollections(c, [Collection.Book, Collection.User])),
+    validateFields
+];
+
 //PUT
 export const validatorUploadPut = [
     validateFile,
