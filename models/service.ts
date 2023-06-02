@@ -12,7 +12,7 @@ export class Service {
     public book: Ref<Book>;
 
     @prop({required:true})
-    public requestState:boolean;
+    public requestState:string;
 
     @prop({required:true})
     public requestSubmitedDate: string;

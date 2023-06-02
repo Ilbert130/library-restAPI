@@ -11,7 +11,7 @@ export const createService = async(req:Request, res:Response) => {
     try {
         let service;
         const {user, book} = req.body;
-        const getBook = await BookModel.findById({id:book});
+        const getBook = await BookModel.findOne({_id:book});
 
         if(getBook?.amount===0)
             return servicePending(res, service, user, book);
@@ -49,7 +49,7 @@ export const submitAgainService = async(req:Request, res:Response) => {
 
         const {id} = req.params;
         let service = await ServiceModel.findById(id);
-        const getBook = await BookModel.findById({id:service?.book});
+        const getBook = await BookModel.findOne({id:service?.book});
         const user:string = service?.user.toString() || '';
         const book:string = service?.book.toString() || '';
 
@@ -63,7 +63,7 @@ export const submitAgainService = async(req:Request, res:Response) => {
             bookReturnDate: getDate(true)
         }
 
-        service = await ServiceModel.findByIdAndUpdate(id, serviceUpdate);
+        service = await ServiceModel.findByIdAndUpdate(id, serviceUpdate, {new:true});
         return res.json({
             service
         });

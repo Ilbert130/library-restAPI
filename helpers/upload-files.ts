@@ -24,7 +24,7 @@ export const uploadFile = (files:fileUpload.FileArray|any, validExtensions:strin
 
         //creating the path
         // const uploadPath = path.join(__dirname, '../uploads/', folders, nameFile);
-        const uploadPath = `../dist/uploads/${folders}/${nameFile}`;
+        const uploadPath = `./dist/uploads/${folders}/${nameFile}`;
 
         //moving the file to the path
         file.mv(uploadPath, (err:any) => {
