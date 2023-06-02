@@ -1,9 +1,11 @@
 import { Router, Request, Response, json} from "express";
-import { bookReturnedStatus, createService, serviceDelete, submitAgainService } from "../controllers/services";
+import { GetAllService, bookReturnedStatus, createService, serviceDelete, submitAgainService } from "../controllers/services";
 
 
 
 const router:Router = Router();
+
+router.get('/', GetAllService);
 
 router.post('/submit', createService);
 

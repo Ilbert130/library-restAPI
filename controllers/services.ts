@@ -5,6 +5,32 @@ import { serviceState } from "../utilities/serviceState";
 
 
 
+//GET
+export const GetAllService = async(req:Request, res:Response) => { 
+    try {
+        const { limit = 5, since = 0} = req.query;
+        const query = {state:true};
+
+        const [total, services] = await Promise.all([
+            ServiceModel.countDocuments(query),
+            ServiceModel.find(query).populate('user',['name', 'email']).populate('book', ['name','edition'])
+                .skip(+since)
+                .limit(+limit)
+        ]);
+
+        res.json({
+            total,
+            services
+        });
+
+    } catch (error) {
+        res.json({
+            msg: 'Error',
+            error
+        });
+    }
+}
+
 //POST
 export const createService = async(req:Request, res:Response) => {
 
