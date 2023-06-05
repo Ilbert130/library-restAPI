@@ -38,8 +38,9 @@ export const createService = async(req:Request, res:Response) => {
         let service;
         const {user, book} = req.body;
         const getBook = await BookModel.findOne({_id:book});
+        const amount:number = getBook?.amount || 0;
 
-        if(getBook?.amount===0)
+        if(amount===0)
             return servicePending(res, service, user, book);
         
 
@@ -52,7 +53,10 @@ export const createService = async(req:Request, res:Response) => {
             bookReturnDate: getDate(true)
         });
 
-        await service.save();
+        await Promise.all([
+            BookModel.findByIdAndUpdate(book, {amount: amount - 1}),
+            service.save()
+        ]);
 
         return res.json({
             service
@@ -76,10 +80,11 @@ export const submitAgainService = async(req:Request, res:Response) => {
         const {id} = req.params;
         let service = await ServiceModel.findById(id);
         const getBook = await BookModel.findOne({id:service?.book});
+        const amount:number = getBook?.amount || 0;
         const user:string = service?.user.toString() || '';
         const book:string = service?.book.toString() || '';
 
-        if(getBook?.amount===0)
+        if(amount===0)
             return servicePending(res, service, user, book);
         
         const serviceUpdate = {
@@ -89,9 +94,13 @@ export const submitAgainService = async(req:Request, res:Response) => {
             bookReturnDate: getDate(true)
         }
 
-        service = await ServiceModel.findByIdAndUpdate(id, serviceUpdate, {new:true});
+        const [bookUpdate, serviceUp] = await Promise.all([
+            BookModel.findByIdAndUpdate({amount: amount - 1}),
+            ServiceModel.findByIdAndUpdate(id, serviceUpdate, {new:true})
+        ]);
+
         return res.json({
-            service
+            service:serviceUp
         });
         
     } catch (error) {
@@ -109,7 +118,11 @@ export const bookReturnedStatus = async(req:Request, res:Response) => {
     try {
 
         const {id} = req.params;
-        const service = await ServiceModel.findByIdAndUpdate(id, {requestState: serviceState.Returned, userReturnBookDate: getDate()})
+        const service = await ServiceModel.findByIdAndUpdate(id, {requestState: serviceState.Returned, userReturnBookDate: getDate()}, {new:true});
+        const book = await BookModel.findOne({id:service?.book});
+        const amount:number = book?.amount || 0;
+        await BookModel.findByIdAndUpdate(service?.book, {amount:amount+1});
+
         return res.json({
             service
         });

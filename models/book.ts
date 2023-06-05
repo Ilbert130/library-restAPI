@@ -15,7 +15,7 @@ export class Book {
     public edition: string;
 
     @prop({default:0})
-    public amount?: number;  
+    public amount: number;  
     
     @prop()
     public image?: string;
